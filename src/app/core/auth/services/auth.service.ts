@@ -12,7 +12,7 @@ export class AuthService {
     private readonly _router: Router = inject(Router);
     private readonly _builder: FormBuilder = inject(FormBuilder);
 
-    private storage: Storage = window.localStorage;
+    private cookie: CookieStore = window.cookieStore;
     private $authenticated: WritableSignal<boolean> = signal(false);
 
     private loginForm: FormGroup = this._builder.group({
@@ -47,30 +47,54 @@ export class AuthService {
         return this.loginForm;
     }
 
-    public login(): void {
-        const credentials: string | null = this.storage.getItem('credentials');
-        const { valid, value } = this.loginForm;
-        const saved: Session | null = credentials
-            ? JSON.parse(credentials)
-            : null;
-        
-        if (!valid) return;
-
-        const { email, password } = value;
-
-        if (!saved) this.storage.setItem('credentials', JSON.stringify({ email, password }));
-        if (!saved || (saved.email === email && saved.password === password)) {
-            this.$authenticated.update(() => true);
-            this._router.navigate(['app', 'home']);
-            return;
-        }
-
-        this.$authenticated.update(() => false);
-        this.loginForm.reset();
+    public login(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.cookie.get('credentials')
+                .then((credentials: Cookie | null)  => {
+                    const { valid, value } = this.loginForm;
+                    const saved: Session | null = credentials
+                        ? JSON.parse(credentials.value)
+                        : null;
+                    
+                    if (!valid) return reject({ code: 'form' });
+            
+                    const { email, password } = value;
+            
+                    if (!saved) this.cookie.set({
+                        name: 'credentials',
+                        value: JSON.stringify({ email, password }),
+                        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+                        sameSite: 'strict', 
+                    });
+            
+                    if (!saved || (saved.email === email && saved.password === password)) {
+                        this.$authenticated.update(() => true);
+                        this._router.navigate(['app', 'home']);
+                        this.loginForm.reset();
+                        return resolve();
+                    }
+            
+                    this.$authenticated.update(() => false);
+                    reject({ code: 'access' });
+                })
+                .catch(({ message }: Error) => reject({ message, code: 'cookie' }));
+        });
     }
 
     public logout(): void {
         this.$authenticated.update(() => false);
-        this._router.navigate(['/']);
+        this._router.navigate(['login']);
+    }
+
+    public resetAccess(): Promise<void> {
+        return new  Promise((resolve, reject) => {
+            this.cookie.delete('credentials')
+                .then(() => {
+                    this.$authenticated.update(() => false);
+                    return this._router.navigate(['login']);
+                })
+                .then(() => resolve())
+                .catch((error: Error) => reject(error));
+        })
     }
 }

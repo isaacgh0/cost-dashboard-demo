@@ -1,9 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 @layer theme, base, components, utilities;
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/utilities.css" layer(utilities);
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
 
-/** Fuente de la aplicacion */
 @font-face {
   font-family: 'Pixelify_Sans';
   src: url('./assets/fonts/Pixelify_Sans/PixelifySans-VariableFont_wght.ttf') format('truetype');
@@ -11,6 +10,17 @@
   font-style: normal;
 }
 
+@theme {
+  --font-pixelify-sans: 'Pixelify_Sans', sans-serif;
+
+  --color-fi-main: #FDB812;
+}
+
+
 html {
-  font-family: 'Pixelify_Sans', sans-serif;
+  @apply font-pixelify-sans;
+}
+
+body {
+  @apply p-0 m-0;
 }
