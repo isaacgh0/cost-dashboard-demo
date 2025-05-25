@@ -3,6 +3,11 @@ import { LoginPageComponent } from './pages/login.page.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SharedComponentsModule } from '../../shared/components/shared-components.module';
+import { NgOptimizedImage } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
     declarations: [
@@ -10,6 +15,9 @@ import { SharedComponentsModule } from '../../shared/components/shared-component
     ],
     imports: [
         CommonModule,
+        NgOptimizedImage,
+        FormsModule,
+        ReactiveFormsModule,
         RouterModule.forChild([
             {
                 path: '',
@@ -17,6 +25,9 @@ import { SharedComponentsModule } from '../../shared/components/shared-component
             }
         ]),
         SharedComponentsModule,
+        InputTextModule,
+        PasswordModule,
+        ButtonModule,
     ],
 })
 export class LoginModule { }
