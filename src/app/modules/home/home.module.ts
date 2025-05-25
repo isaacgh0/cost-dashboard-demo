@@ -1,8 +1,7 @@
-import { Input, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { HomePageComponent } from './pages/home.page.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { SharedComponentsModule } from '../../shared/components/shared-components.module';
 import { KpisDemoComponent } from './components/kpis-demo.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CardModule } from 'primeng/card';
@@ -32,8 +31,7 @@ import { TableModule } from 'primeng/table';
                 component: HomePageComponent,
             }
         ]),
-        SharedComponentsModule,
-
+        
         // * Ngprime.
         CardModule,
         ButtonModule,
