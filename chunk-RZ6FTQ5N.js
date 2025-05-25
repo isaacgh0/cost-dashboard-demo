@@ -1,0 +1,1 @@
+import{h as e,q as m}from"./chunk-7ZV2C32C.js";import{Sa as r,U as i}from"./chunk-MJUWH32L.js";var n=class o{static \u0275fac=function(d){return new(d||o)};static \u0275mod=r({type:o});static \u0275inj=i({imports:[e,m.forChild([{path:"",loadChildren:()=>import("./chunk-IAW52R6M.js").then(t=>t.LoginModule)}])]})};export{n as PublicModule};
