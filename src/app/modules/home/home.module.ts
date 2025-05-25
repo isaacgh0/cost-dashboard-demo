@@ -1,15 +1,31 @@
-import { NgModule } from '@angular/core';
+import { Input, NgModule } from '@angular/core';
 import { HomePageComponent } from './pages/home.page.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SharedComponentsModule } from '../../shared/components/shared-components.module';
+import { KpisDemoComponent } from './components/kpis-demo.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { ChartModule } from 'primeng/chart';
+import { InputTextModule } from 'primeng/inputtext';
+import {DragDropModule, CdkDrag} from '@angular/cdk/drag-drop';
+import { DragAndDropTestComponent } from './components/drag-and-drop-test.component';
+import { TableModule } from 'primeng/table';
+
 
 @NgModule({
     declarations: [
-        HomePageComponent
+        HomePageComponent,
+        // * Components.
+        KpisDemoComponent,
+        DragAndDropTestComponent
     ],
     imports: [
         CommonModule,
+        ReactiveFormsModule,
+        DragDropModule,
+        CdkDrag,
         RouterModule.forChild([
             {
                 path: '',
@@ -17,6 +33,13 @@ import { SharedComponentsModule } from '../../shared/components/shared-component
             }
         ]),
         SharedComponentsModule,
+
+        // * Ngprime.
+        CardModule,
+        ButtonModule,
+        ChartModule,
+        InputTextModule,
+        TableModule,
     ],
 })
 export class HomeModule { }
