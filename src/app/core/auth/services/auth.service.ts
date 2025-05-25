@@ -3,6 +3,7 @@ import { Session } from '../types/auth.type';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+const SESSION_KEY: string = 'credentials';
 const VALID_PASSWORD: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[&_.:,;@#\-$|¬°!"%\/='?¿¡+*~{}\[\]\(\)^])[a-zA-Z\d&_.:,;@#\-$|¬°!"%\/='?¿¡+*~{}\[\]\(\)^]{8,}$/;
 
 @Injectable({
@@ -61,9 +62,9 @@ export class AuthService {
                     const { email, password } = value;
             
                     if (!saved) this.cookie.set({
-                        name: 'credentials',
-                        value: JSON.stringify({ email, password }),
-                        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+                        name:     SESSION_KEY,
+                        value:    JSON.stringify({ email, password }),
+                        expires:  new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
                         sameSite: 'strict', 
                     });
             
